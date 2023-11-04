@@ -1,179 +1,196 @@
+import Head from 'next/head'
+import Image from 'next/image'
+import Link from 'next/link'
+import mongoose from "mongoose";
+import Product from "../models/Product"
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
+import { FaTshirt, FaRupeeSign } from 'react-icons/fa';
+import { MdLocalShipping } from 'react-icons/md';
 
-import Head from "next/head";
-import image from "next/image";
+const responsiveSettings = [
+  {
+    breakpoint: 1200,
+    settings: {
+      slidesToShow: 6,
+      slidesToScroll: 1
+    }
+  },
+  {
+    breakpoint: 800,
+    settings: {
+      slidesToShow: 4,
+      slidesToScroll: 1
+    }
+  },
+  {
+    breakpoint: 700,
+    settings: {
+      slidesToShow: 3,
+      slidesToScroll: 1
+    }
+  },
+  {
+    breakpoint: 500,
+    settings: {
+      slidesToShow: 2,
+      slidesToScroll: 1
+    }
+  },
+  {
+    breakpoint: 100,
+    settings: {
+      slidesToShow: 1,
+      slidesToScroll: 1
+    }
+  }
+];
 
-export default function Home() {
+export default function Home({ tshirt, jeans }) {
   return (
-    <>
+    <div>
       <Head>
-        <title>Codesware.com - Ware the code</title>
-        <meta name="description" content="Codesware.com - ware the code" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>{process.env.NEXT_PUBLIC_WEBSITE_NAME}</title>
       </Head>
-      <div>
-        <img src="/bg.jpg" alt="" />
+
+      <div className="m-0 mb-12 p-0 w-[100%] h-auto flex flex-wrap float-left">
+        <div className="w-full md:w-1/2 cursor-pointer"><Link href="/tshirts" ><Image src="/images/home/2.jpg" height="350%" width="755%" alt="Fashion Sale1" /></Link></div>
+        <div className="w-full md:w-1/2 cursor-pointer"><Link href="/jeans" ><Image src="/images/home/1.png" height="350%" width="755%" alt="Fashion Sale2" /></Link></div>
+        <div className="w-full md:w-1/2 cursor-pointer"><Link href="/jeans" ><Image src="/images/home/3.png" height="380%" width="755%" alt="Fashion Sale3" /></Link></div>
+        <div className="w-full md:w-1/2 cursor-pointer"><Link href="/tshirts" ><Image src="/images/home/4.png" height="380%" width="755%" alt="Fashion Sale4" /></Link></div>
       </div>
-      <section className="text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto">
-          <div className="flex flex-wrap w-full mb-20 flex-col items-center text-center">
-            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">
-            Ware the code with codesware.com
-            </h1>
-            <p className="lg:w-1/2 w-full leading-relaxed text-gray-500">
-              Ware whatever you want? you want code? so why code? so why the code??
-            </p>
+
+      <div className="px-5 md:py-6 mx-auto">
+        <div className="flex flex-wrap w-full flex-col items-center text-center">
+          <h1 className="text-2xl font-bold title-font text-gray-900"><u>Featured Products</u></h1>
+        </div>
+      </div>
+
+      <div className="mx-auto p-4 md:px-8 justify-center" >
+        <div className="flex justify-between items-center">
+          <h1 className='font-medium text-xl p-4'>T-Shirts</h1>
+          <Link href={'/tshirts'}><a><button className="text-white bg-indigo-500 border-0 py-1 px-2 focus:outline-none hover:bg-indigo-600 rounded text-xs md:text-sm">See All</button></a></Link>
+        </div>
+        <center>
+          <Slide slidesToScroll={1} slidesToShow={6} indicators={true} responsive={responsiveSettings} >
+            {Object.keys(tshirt).reverse().map((item) => {
+              return <div className="w-48 p-2 border-2 border-black text-left" key={tshirt[item]._id}>
+                <Link href={`/product/${tshirt[item].slug}`}><a className="">
+                  <Image alt="thsirt" height={150} width={150} src={tshirt[item].img} />
+                  <h2 className="text-gray-900 title-font text-sm lg:text-lg font-medium">{tshirt[item].title}</h2>
+                </a></Link>
+                <div className='flex space-x-2'>
+                  <div className="mt-1">
+                    {tshirt[item].size.includes('S') && <span className='border border-gray-300 text-sm md:text-base px-1 mx-1'>S</span>}
+                    {tshirt[item].size.includes('M') && <span className='border border-gray-300 text-sm md:text-base px-1 mx-1'>M</span>}
+                    {tshirt[item].size.includes('L') && <span className='border border-gray-300 text-sm md:text-base px-1 mx-1'>L </span>}
+                    {tshirt[item].size.includes('XL') && <span className='border border-gray-300 text-sm md:text-base px-1 mx-1'>XL</span>}
+                    {tshirt[item].size.includes('XXL') && <span className='border border-gray-300 text-sm md:text-base px-1 mx-1'>XXL</span>}
+                  </div>
+                  <div className="mt-1">
+                    {tshirt[item].color.includes('red') && <button className="border-2 border-gray-300 ml-1 bg-red-700 rounded-full w-5 md:w-6 h-5 md:h-6 focus:outline-none"></button>}
+                    {tshirt[item].color.includes('blue') && <button className="border-2 border-gray-300 ml-1 bg-blue-700 rounded-full w-5 md:w-6 h-5 md:h-6 focus:outline-none"></button>}
+                    {tshirt[item].color.includes('black') && <button className="border-2 border-gray-300 ml-1 bg-black rounded-full w-5 md:w-6 h-5 md:h-6 focus:outline-none"></button>}
+                    {tshirt[item].color.includes('yellow') && <button className="border-2 border-gray-300 ml-1 bg-yellow-500 rounded-full w-5 md:w-6 h-5 md:h-6 focus:outline-none"></button>}
+                    {tshirt[item].color.includes('green') && <button className="border-2 border-gray-300 ml-1 bg-green-700 rounded-full w-5 md:w-6 h-5 md:h-6 focus:outline-none"></button>}
+                    {tshirt[item].color.includes('purple') && <button className="border-2 border-gray-300 ml-1 bg-purple-700 rounded-full w-5 md:w-6 h-5 md:h-6 focus:outline-none"></button>}
+                  </div>
+                </div>
+                <p className="mt-1 text-sm md:text-base">₹{tshirt[item].price}</p>
+              </div>
+            })}
+          </Slide>
+        </center>
+      </div>
+
+      <div className="mx-auto p-4 md:px-8 justify-center" >
+        <div className="flex justify-between items-center">
+          <h1 className='font-medium text-xl p-4'>Jeans</h1>
+          <Link href={'/jeans'}><a><button className="text-white bg-indigo-500 border-0 py-1 px-2 focus:outline-none hover:bg-indigo-600 rounded text-xs md:text-sm">See All</button></a></Link>
+        </div>
+        <center>
+          <Slide slidesToScroll={1} slidesToShow={6} indicators={true} responsive={responsiveSettings} >
+            {Object.keys(jeans).reverse().map((item) => {
+              return <div className="w-48 p-2 border-2 border-black justify-center text-left" key={jeans[item]._id}>
+                <Link href={`/product/${jeans[item].slug}`}><a className="">
+                  <Image alt="thsirt" height={150} width={150} src={jeans[item].img} />
+                  <h2 className="text-gray-900 title-font text-sm lg:text-lg font-medium">{jeans[item].title}</h2>
+                </a></Link>
+                <div className='flex space-x-2'>
+                  <div className="mt-1">
+                    {jeans[item].size.includes('S') && <span className='border border-gray-300 text-sm md:text-base px-1 mx-1'>S</span>}
+                    {jeans[item].size.includes('M') && <span className='border border-gray-300 text-sm md:text-base px-1 mx-1'>M</span>}
+                    {jeans[item].size.includes('L') && <span className='border border-gray-300 text-sm md:text-base px-1 mx-1'>L </span>}
+                    {jeans[item].size.includes('XL') && <span className='border border-gray-300 text-sm md:text-base px-1 mx-1'>XL</span>}
+                    {jeans[item].size.includes('XXL') && <span className='border border-gray-300 text-sm md:text-base px-1 mx-1'>XXL</span>}
+                  </div>
+                  <div className="mt-1">
+                    {jeans[item].color.includes('red') && <button className="border-2 border-gray-300 ml-1 bg-red-700 rounded-full w-5 md:w-6 h-5 md:h-6 focus:outline-none"></button>}
+                    {jeans[item].color.includes('blue') && <button className="border-2 border-gray-300 ml-1 bg-blue-700 rounded-full w-5 md:w-6 h-5 md:h-6 focus:outline-none"></button>}
+                    {jeans[item].color.includes('black') && <button className="border-2 border-gray-300 ml-1 bg-black rounded-full w-5 md:w-6 h-5 md:h-6 focus:outline-none"></button>}
+                    {jeans[item].color.includes('yellow') && <button className="border-2 border-gray-300 ml-1 bg-yellow-500 rounded-full w-5 md:w-6 h-5 md:h-6 focus:outline-none"></button>}
+                    {jeans[item].color.includes('green') && <button className="border-2 border-gray-300 ml-1 bg-green-700 rounded-full w-5 md:w-6 h-5 md:h-6 focus:outline-none"></button>}
+                    {jeans[item].color.includes('purple') && <button className="border-2 border-gray-300 ml-1 bg-purple-700 rounded-full w-5 md:w-6 h-5 md:h-6 focus:outline-none"></button>}
+                  </div>
+                </div>
+                <p className="mt-1 text-sm md:text-base">₹{jeans[item].price}</p>
+              </div>
+            })}
+          </Slide>
+        </center>
+      </div>
+
+      <section className="text-gray-600 body-font mx-4 md:mx-8 my-16 justify-center">
+        <div className="flex flex-wrap -m-4 text-center">
+          <div className="w-full xl:w-1/3 md:w-1/2 p-4 ">
+            <div className="border border-gray-200 p-6 rounded-lg hover:bg-slate-300 bg-slate-200">
+              <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+                <FaTshirt className='text-2xl md:text-xl' />
+              </div>
+              <h2 className="text-lg text-gray-900 font-medium title-font mb-2">Premium Tshirts</h2>
+              <p className="leading-relaxed text-base">Our T-Shirts are 100% made of cotton.</p>
+            </div>
           </div>
-          <div className="flex flex-wrap -m-4">
-            <div className="xl:w-1/3 md:w-1/2 p-4">
-              <div className="border border-gray-200 p-6 rounded-lg">
-                <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-cyan-100 text-cyan-500 mb-4">
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="w-6 h-6"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                  </svg>
-                </div>
-                <h2 className="text-lg text-gray-900 font-medium title-font mb-2">
-                  Shooting Stars
-                </h2>
-                <p className="leading-relaxed text-base">
-                  Fingerstache flexitarian street art 8-bit waist co, subway
-                  tile poke farm.
-                </p>
+          <div className="w-full xl:w-1/3 md:w-1/2 p-4">
+            <div className="border border-gray-200 p-6 rounded-lg hover:bg-slate-300 bg-slate-200">
+              <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+                <MdLocalShipping className='text-2xl md:text-xl' />
               </div>
+              <h2 className="text-lg text-gray-900 font-medium title-font mb-2">Free Shipping</h2>
+              <p className="leading-relaxed text-base">We ship all over India for FREE.</p>
             </div>
-            <div className="xl:w-1/3 md:w-1/2 p-4">
-              <div className="border border-gray-200 p-6 rounded-lg">
-                <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-cyan-100 text-cyan-500 mb-4">
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="w-6 h-6"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle cx="6" cy="6" r="3"></circle>
-                    <circle cx="6" cy="18" r="3"></circle>
-                    <path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"></path>
-                  </svg>
-                </div>
-                <h2 className="text-lg text-gray-900 font-medium title-font mb-2">
-                  The Catalyzer
-                </h2>
-                <p className="leading-relaxed text-base">
-                  Fingerstache flexitarian street art 8-bit waist co, subway
-                  tile poke farm.
-                </p>
+          </div>
+          <div className="w-full xl:w-1/3 md:w-1/2 p-4">
+            <div className="border border-gray-200 p-6 rounded-lg hover:bg-slate-300 bg-slate-200">
+              <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 mb-4">
+                <FaRupeeSign className='text-2xl md:text-xl' />
               </div>
-            </div>
-            <div className="xl:w-1/3 md:w-1/2 p-4">
-              <div className="border border-gray-200 p-6 rounded-lg">
-                <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-cyan-100 text-cyan-500 mb-4">
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="w-6 h-6"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                  </svg>
-                </div>
-                <h2 className="text-lg text-gray-900 font-medium title-font mb-2">
-                  Neptune
-                </h2>
-                <p className="leading-relaxed text-base">
-                  Fingerstache flexitarian street art 8-bit waist co, subway
-                  tile poke farm.
-                </p>
-              </div>
-            </div>
-            <div className="xl:w-1/3 md:w-1/2 p-4">
-              <div className="border border-gray-200 p-6 rounded-lg">
-                <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-cyan-100 text-cyan-500 mb-4">
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="w-6 h-6"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22v-7"></path>
-                  </svg>
-                </div>
-                <h2 className="text-lg text-gray-900 font-medium title-font mb-2">
-                  Melanchole
-                </h2>
-                <p className="leading-relaxed text-base">
-                  Fingerstache flexitarian street art 8-bit waist co, subway
-                  tile poke farm.
-                </p>
-              </div>
-            </div>
-            <div className="xl:w-1/3 md:w-1/2 p-4">
-              <div className="border border-gray-200 p-6 rounded-lg">
-                <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-cyan-100 text-cyan-500 mb-4">
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="w-6 h-6"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
-                  </svg>
-                </div>
-                <h2 className="text-lg text-gray-900 font-medium title-font mb-2">
-                  Bunker
-                </h2>
-                <p className="leading-relaxed text-base">
-                  Fingerstache flexitarian street art 8-bit waist co, subway
-                  tile poke farm.
-                </p>
-              </div>
-            </div>
-            <div className="xl:w-1/3 md:w-1/2 p-4">
-              <div className="border border-gray-200 p-6 rounded-lg">
-                <div className="w-10 h-10 inline-flex items-center justify-center rounded-full bg-cyan-100 text-cyan-500 mb-4">
-                  <svg
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    className="w-6 h-6"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                  </svg>
-                </div>
-                <h2 className="text-lg text-gray-900 font-medium title-font mb-2">
-                  Ramona Falls
-                </h2>
-                <p className="leading-relaxed text-base">
-                  Fingerstache flexitarian street art 8-bit waist co, subway
-                  tile poke farm.
-                </p>
-              </div>
+              <h2 className="text-lg text-gray-900 font-medium title-font mb-2">Exciting Offers</h2>
+              <p className="leading-relaxed text-base">We provide amazing offers & discounts on our products.</p>
             </div>
           </div>
         </div>
       </section>
-    </>
-  );
+
+    </div>
+  )
+}
+
+export async function getServerSideProps(context) {
+  if (!mongoose.connections[0].readyState) {
+    await mongoose.connect(process.env.MONGO_URI)
+
+  }
+  let p = await Product.find({ category: "T-Shirt" })
+  let tshirt = p.reverse().slice(0, 6)
+
+  let q = await Product.find({ category: "Jeans" })
+  let jeans = q.reverse().slice(0, 6)
+
+  return {
+    props: {
+      tshirt: JSON.parse(JSON.stringify(tshirt)),
+      jeans: JSON.parse(JSON.stringify(jeans))
+    }, // will be passed to
+  }
 }
