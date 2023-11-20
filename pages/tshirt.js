@@ -17,11 +17,11 @@ const Tshirts = ({ products }) => {
                         {Object.keys(products).length === 0 && <p>Sorry all the products are currently out of stock. New Stock comming soon. Stay tunned!!</p>}
                         {Object.keys(products).reverse().map((item) => {
                             return <div className="w-2/5 lg:w-1/6 p-2 lg:p-4 shadow-lg mb-5 lg:m-5" key={products[item]._id}>
-                                <Link href={`/product/${products[item].slug}`}><a className="block relative h-15 rounded overflow-hidden">
+                                <Link href={`/product/${products[item].slug}`} className="block relative h-15 rounded overflow-hidden">
                                     <Image alt="thsirt" height={250} width={250} className="m-auto md:mx-0 h-[30vh] md:h-[36vh] block" src={products[item].img} />                                
                                     <h3 className="mt-4 text-gray-500 text-xs tracking-widest title-font mb-1">{products[item].category}</h3>
                                     <h2 className="text-gray-900 title-font text-sm lg:text-lg font-medium">{products[item].title}</h2>
-                                    </a></Link>
+                                    </Link>
                                 <div className='flex space-x-2'>
                                     <div className="mt-1">
                                         {products[item].size.includes('S') && <span className='border border-gray-300 text-sm md:text-base px-1 mx-1'>S</span>}
